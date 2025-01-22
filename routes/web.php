@@ -13,4 +13,5 @@ Route::get('/about', function () {
 });
 
 // Criar uma rota diretamente para um método dentro de uma classe
-Route::get('/main', [MainController::class, 'index']);
+// Adicionando um parâmetro a rota: /main para /main{value}
+Route::get('/main/{value}', [MainController::class, 'index']);

@@ -8,5 +8,8 @@
 </head>
 <body>
     <h1>View and Brade!</h1>
+    <br>
+    <h3>The value is: <?= $value; ?></h3>
+
 </body>
 </html>
