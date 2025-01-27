@@ -7,5 +7,7 @@
         Essa notação substitui a instrução PHP do branch anterior.
         < ? = $value ? >
     --}}
+    <h2>Página 2</h2>
     <h3>The value is: {{ $value }}</h3>
+
 @endsection
