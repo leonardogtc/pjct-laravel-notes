@@ -11,6 +11,14 @@ class AuthController extends Controller
         return view('login');
     }
 
+    public function loginSubmit(Request $request)
+    {
+        // dd($request);
+        echo $request->input('text_username');
+        echo "<hr>";
+        echo $request->input('text_password');
+    }
+
     public function logout()
     {
         echo "logout";
