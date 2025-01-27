@@ -15,6 +15,12 @@
                 <div class="row justify-content-center">
                     <div class="col-md-10 col-12">
                         <form action="/loginSubmit" method="post">
+                            {{--
+                                Cross-site Request Forgery (CSRF) é um tipo de ataque de websites maliciosos.
+                                Um ataque CSRF às vezes é chamado de ataque de um clique ou transporte de sessão.
+                                Esse tipo de ataque envia solicitações desautorizadas de um usuário no qual o
+                                website confia.
+                            --}}
                             @csrf
                             <div class="mb-3">
                                 <label for="text_username" class="form-label">Username</label>
