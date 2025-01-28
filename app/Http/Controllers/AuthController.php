@@ -32,18 +32,36 @@ class AuthController extends Controller
         );
 
         // get user input
-        $usernema = $request->input('text_username');
+        $username = $request->input('text_username');
         $password = $request->input('text_password');
 
-        // Pegar usuários da database
-        // $users = User::all()->toArray();
+        // Autenticar usuários
+        // Verificar se usuários existe
+        $user = User::where('username', $username)->where('deleted_at', NULL)->first();
 
-        // Pode ser obtido o mesmo resultado instanciando o model
-        $userModel = new User();
-        $users = $userModel->all()->toArray();
-        echo "<pre>";
-        print_r($users);
-        echo "<pre>";
+        if (!$user) {
+            // Esse código mantém o sistema na tela de login quando o usuário não existir.
+            return redirect()->back()->withInput()->with('loginError', 'Username ou password incorretas');
+        }
+
+        // Verificando password
+        if(!password_verify($password, $user->password)) {
+            return redirect()->back()->withInput()->with('loginError', 'Username ou password incorretas');
+        }
+
+        // update last_login
+        $user->last_login = date('Y-m-d H:i:s');
+        $user->save();
+
+        // login user
+        session([
+            'user' => [
+                'id' => $user->id,
+                'username' => $user->username
+            ]
+            ]);
+
+        echo "LOGIN EFETUADO COM SUCESSO!";
     }
 
     public function logout()
