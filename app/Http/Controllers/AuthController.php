@@ -45,7 +45,7 @@ class AuthController extends Controller
         }
 
         // Verificando password
-        if(!password_verify($password, $user->password)) {
+        if (!password_verify($password, $user->password)) {
             return redirect()->back()->withInput()->with('loginError', 'Username ou password incorretas');
         }
 
@@ -59,13 +59,17 @@ class AuthController extends Controller
                 'id' => $user->id,
                 'username' => $user->username
             ]
-            ]);
+        ]);
 
         echo "LOGIN EFETUADO COM SUCESSO!";
     }
 
     public function logout()
     {
-        echo "logout";
+        // Limpa os dados da sessão user (descarregando o usuário)
+        session()->forget('user');
+
+        // Retorna a rota de login
+        return redirect()->to('/login');
     }
 }
