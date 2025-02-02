@@ -13,7 +13,15 @@ class MainController extends Controller
     {
         // Load user's notes (Pega as notas do usuário)
         $id = session('user.id');
-        $notes = User::find($id)->notes()->get()->toArray();
+
+        /*
+            Foi inserida a instrução ->whereNull('deleted_at') para que o sistema selecione
+            somente as notas que não tiverem uma data de deleção preenchida.
+            Essa alteração foi feita após inserir no método "deleteNoteConfirm" a técnica para
+            soft delete (incluindo a data de deleção no banco de dados).
+            Equivalência: SELECT * FROM notes WHERE deleted_at IS NULL;
+        */
+        $notes = User::find($id)->notes()->whereNull('deleted_at')->get()->toArray();
 
         // Mostrar a view 'home'
         return view('home', ['notes' => $notes]);
@@ -111,6 +119,28 @@ class MainController extends Controller
     public function deleteNote($id)
     {
         $id = Operations::decryptID($id);
-        echo "Deletando nota de ID = $id";
+
+        // load note
+        $note = Note::find($id);
+
+        // Show delete note confirmation
+        return view('delete_note', ['note' => $note]);
+    }
+
+    public function deleteNoteConfirm($id)
+    {
+        $id = Operations::decryptID($id);
+
+        // Ler a nota
+        $note = Note::find($id);
+
+        // 1. Hard Delete (Remove o registro fisicamente do banco de dados)
+        // $note->delete();
+
+        // 2. Soft delete (Marca o regitro como deletado da base e o mantém)
+        $note->deleted_at = date('Y-m-d H:i:s');
+        $note->save();
+
+        return redirect()->route('home');
     }
 }
