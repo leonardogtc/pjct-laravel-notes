@@ -21,6 +21,7 @@
                 <!-- form -->
                 <form action="{{ route('editNoteSubmit') }}" method="post">
                     @csrf
+                    <input type="hidden" name="note_id" value="{{ Crypt::encrypt($note->id) }}">
                     <div class="row mt-3">
                         <div class="col">
                             <div class="mb-3">
@@ -48,7 +49,7 @@
                                     class="fa-solid fa-ban me-2"></i>Cancel</a>
                             {{-- NOTA: Quando não existir no formulário o @csrf será mostrado um erro "419 Page Expired" --}}
                             <button type="submit" class="btn btn-secondary px-5"><i
-                                    class="fa-regular fa-circle-check me-2"></i>Save</button>
+                                    class="fa-regular fa-circle-check me-2"></i>Update</button>
                         </div>
                     </div>
                 </form>
