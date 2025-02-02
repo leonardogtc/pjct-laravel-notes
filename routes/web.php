@@ -26,6 +26,7 @@ Route::middleware([CheckIsLogged::class])->group(function () {
 
     // Deletar nota
     Route::get('/deleteNote/{id}', [MainController::class, 'deleteNote'])->name('delete');
+    Route::get('deleteNoteConfirm/"{id}', [MainController::class, 'deleteNoteConfirm'])->name('deleteConfirm');
 
     // Efetuar logout
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
