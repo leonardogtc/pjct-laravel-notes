@@ -138,8 +138,22 @@ class MainController extends Controller
         // $note->delete();
 
         // 2. Soft delete (Marca o regitro como deletado da base e o mantém)
-        $note->deleted_at = date('Y-m-d H:i:s');
-        $note->save();
+        // $note->deleted_at = date('Y-m-d H:i:s');
+        // $note->save();
+
+        /*
+            3. Soft delete com a chamada da classe SoftDeletes no model do Note
+            Dessa forma ao executar o delete simplesmente atual como um softdelete.
+        */
+
+        // $note->delete();
+
+        /*
+            4. É possível remover a nota mesmo estando com Softdelete ativado, usando
+            para isso forceDelete
+        */
+
+        $note->forceDelete();
 
         return redirect()->route('home');
     }
